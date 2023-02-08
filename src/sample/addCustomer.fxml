@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.addCustomerController">
+   <children>
+      <TextField fx:id="nameField" layoutX="100.0" layoutY="80.0" />
+      <TextField fx:id="addressField" layoutX="100.0" layoutY="140.0" />
+      <TextField fx:id="numberField" layoutX="100.0" layoutY="260.0" />
+      <TextField fx:id="postalField" layoutX="100.0" layoutY="200.0" />
+      <ComboBox fx:id="countryField" layoutX="380.0" layoutY="80.0" onAction="#countryOnClick" prefWidth="150.0" />
+      <ComboBox fx:id="stateField" layoutX="380.0" layoutY="200.0" prefWidth="150.0" />
+      <Label layoutX="51.0" layoutY="30.0" text="Add Customer">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="30.0" layoutY="80.0" text="Name" />
+      <Label layoutX="25.0" layoutY="140.0" text="Address" />
+      <Label layoutX="20.0" layoutY="200.0" text="Postal code" />
+      <Label layoutX="11.0" layoutY="260.0" text="Phone Number" />
+      <Label layoutX="289.0" layoutY="80.0" text="Country" />
+      <Label layoutX="272.0" layoutY="200.0" text="State/Province" />
+      <Button fx:id="addButton" layoutX="149.0" layoutY="331.0" mnemonicParsing="false" onAction="#onAddClick" text="Add" />
+      <Button fx:id="exitButton" layoutX="429.0" layoutY="331.0" mnemonicParsing="false" onAction="#onExitClick" text="Exit" />
+   </children>
+</AnchorPane>

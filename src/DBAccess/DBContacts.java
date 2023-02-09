@@ -9,7 +9,7 @@ import sample.JDBC;
 import java.sql.*;
 
 public class DBContacts {
-    public static ObservableList<Contact> contactGet() throws SQLException {
+    public static ObservableList<Contact> getContacts() throws SQLException {
         String sql = "SELECT * FROM contacts";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
@@ -27,41 +27,16 @@ public class DBContacts {
         return contacts;
     }
 
-    public static ResultSet appointmentGet(int appID) throws SQLException {
-        String sql = "SELECT * FROM appointments WHERE Appointment_ID = ?";
+    public static int getContact(String name) throws SQLException {
+        String sql = "SELECT * FROM contacts WHERE Contact_Name = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-        ps.setInt(1, appID);
+        ps.setString(1, name);
         ResultSet rs = ps.executeQuery();
+        int id = 0;
 
         while (rs.next()) {
-            String title = rs.getString("Title");
+            id = rs.getInt("Contact_ID");
         }
-        return rs;
-    }
-
-    public static int appointmentAdd(String title, String description, String location, String type, Date createDate,
-                                     String createdBy, Timestamp lastUpdate, String lastUpdatedBy, Date start, Date end,
-                                     int customerID, int userID, int contactID) throws SQLException {
-
-        String sql = "INSERT INTO appointments Appointment_ID = Default, Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = ?," +
-                "Last_Updated_By = ?, Create_date = ?, Created_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ?";
-        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-        ps.setString(1, title);
-        ps.setString(2, description);
-        ps.setString(3, location);
-        ps.setString(4, type);
-        ps.setDate(5,start);
-        ps.setDate(6, end);
-        ps.setTimestamp(7, lastUpdate);
-        ps.setString(8, lastUpdatedBy);
-        ps.setDate(9, createDate);
-        ps.setString(10, createdBy);
-        ps.setInt(11, customerID);
-        ps.setInt(12, userID);
-        ps.setInt(13, contactID);
-
-        int rowsAffected = ps.executeUpdate();
-
-        return rowsAffected;
+        return id;
     }
 }

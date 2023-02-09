@@ -53,7 +53,7 @@ public class DBAppointments {
     }
 
     public static int appointmentAdd(String title, String description, String location, String type, Date createDate,
-                                  String createdBy, Timestamp lastUpdate, String lastUpdatedBy, Date start, Date end,
+                                  String createdBy, Timestamp lastUpdate, String lastUpdatedBy, Timestamp start, Timestamp end,
                                      int customerID, int userID, int contactID) throws SQLException {
 
         String sql = "INSERT INTO appointments Appointment_ID = Default, Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = ?," +
@@ -63,8 +63,8 @@ public class DBAppointments {
         ps.setString(2, description);
         ps.setString(3, location);
         ps.setString(4, type);
-        ps.setDate(5,start);
-        ps.setDate(6, end);
+        ps.setTimestamp(5,start);
+        ps.setTimestamp(6, end);
         ps.setTimestamp(7, lastUpdate);
         ps.setString(8, lastUpdatedBy);
         ps.setDate(9, createDate);

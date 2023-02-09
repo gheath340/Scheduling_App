@@ -1,6 +1,7 @@
 package sample;
 
 import DBAccess.DBAppointments;
+import DBAccess.DBContacts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -13,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class addAppointmentController {
@@ -29,7 +31,7 @@ public class addAppointmentController {
     public TextField userIDField;
     public ComboBox contactField;
 
-    public void onAddClick(ActionEvent actionEvent) {
+    public void onAddClick(ActionEvent actionEvent) throws SQLException {
         String title = titleField.getText();
         String location = locationField.getText();
         String description = descriptionField.getText();
@@ -38,14 +40,18 @@ public class addAppointmentController {
         Timestamp start = Timestamp.valueOf(startString);
         String endString = endField.getText();
         Timestamp end = Timestamp.valueOf(endString);
-        String customerID = customerIDField.getText();
-        String userID = userIDField.getText();
+        String customerIDString = customerIDField.getText();
+        int customerID = Integer.valueOf(customerIDString);
+        String userIDString = userIDField.getText();
+        int userID = Integer.valueOf(userIDString);
         String contact = (String) contactField.getValue();
+        int contactID = DBContacts.getContact(contact);
         long millis = System.currentTimeMillis();
-        Date date = new java.sql.Date(millis);
+        Date createDate = new Date(millis);
+        Timestamp lastUpdate = new Timestamp(millis);
         String user = LoginController.getUser();
 
-        DBAppointments.appointmentAdd(title, description, location, type, date, user, date,
+        DBAppointments.appointmentAdd(title, description, location, type, createDate, user, lastUpdate,
                 user, start, end, customerID, userID, contactID);
     }
 

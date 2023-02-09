@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.addAppointmentController">
    <children>
       <TextField fx:id="titleField" layoutX="121.0" layoutY="84.0" />
@@ -30,8 +29,8 @@
       <Label layoutX="310.0" layoutY="281.0" text="User ID" />
       <Label layoutX="41.0" layoutY="269.0" text="Contact" />
       <TextField fx:id="typeField" layoutX="370.0" layoutY="84.0" />
-      <TextField fx:id="startField" layoutX="370.0" layoutY="134.0" />
-      <TextField fx:id="endField" layoutX="370.0" layoutY="178.0" />
+      <TextField fx:id="startField" layoutX="370.0" layoutY="134.0" promptText="YYYY-MM-DD HH:MM" />
+      <TextField fx:id="endField" layoutX="370.0" layoutY="178.0" promptText="YYYY-MM-DD HH:MM" />
       <TextField fx:id="customerIDField" layoutX="370.0" layoutY="226.0" />
       <TextField fx:id="userIDField" layoutX="370.0" layoutY="277.0" />
       <ComboBox fx:id="contactField" layoutX="121.0" layoutY="265.0" prefWidth="150.0" />

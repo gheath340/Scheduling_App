@@ -2,8 +2,12 @@ package sample;
 
 import DBAccess.DBAppointments;
 import DBAccess.DBContacts;
+import Model.Contact;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,11 +17,13 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ResourceBundle;
 
-public class addAppointmentController {
+public class addAppointmentController implements Initializable {
 
     public TextField titleField;
     public TextField locationField;
@@ -31,14 +37,29 @@ public class addAppointmentController {
     public TextField userIDField;
     public ComboBox contactField;
 
-    public void onAddClick(ActionEvent actionEvent) throws SQLException {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        //get all contacts and make a list of their names
+        try {
+            ObservableList<Contact> contacts = DBContacts.getContacts();
+            ObservableList<String> names = FXCollections.observableArrayList();
+            for (Contact contact : contacts){
+                names.add(contact.getName());
+            }
+            contactField.getItems().addAll(names);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void onAddClick(ActionEvent actionEvent) throws SQLException, IOException {
         String title = titleField.getText();
         String location = locationField.getText();
         String description = descriptionField.getText();
         String type = typeField.getText();
-        String startString = startField.getText();
+        String startString = startField.getText() + ":00";
         Timestamp start = Timestamp.valueOf(startString);
-        String endString = endField.getText();
+        String endString = endField.getText() + ":00";
         Timestamp end = Timestamp.valueOf(endString);
         String customerIDString = customerIDField.getText();
         int customerID = Integer.valueOf(customerIDString);
@@ -53,6 +74,7 @@ public class addAppointmentController {
 
         DBAppointments.appointmentAdd(title, description, location, type, createDate, user, lastUpdate,
                 user, start, end, customerID, userID, contactID);
+        onExitClick(actionEvent);
     }
 
     public void onExitClick(ActionEvent actionEvent) throws IOException {

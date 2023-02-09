@@ -1,7 +1,6 @@
 package DBAccess;
 
 import Model.Appointment;
-import Model.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sample.JDBC;
@@ -53,11 +52,11 @@ public class DBAppointments {
     }
 
     public static int appointmentAdd(String title, String description, String location, String type, Date createDate,
-                                  String createdBy, Timestamp lastUpdate, String lastUpdatedBy, Timestamp start, Timestamp end,
-                                     int customerID, int userID, int contactID) throws SQLException {
+                                      String createdBy, Timestamp lastUpdate, String lastUpdatedBy, Timestamp start, Timestamp end,
+                                      int customerID, int userID, int contactID) throws SQLException {
 
-        String sql = "INSERT INTO appointments Appointment_ID = Default, Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = ?," +
-                "Last_Updated_By = ?, Create_date = ?, Created_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ?";
+        String sql = "INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Last_Update," +
+                "Last_Updated_By, Create_Date, Created_By, Customer_ID, User_ID , Contact_ID VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
         ps.setString(1, title);
         ps.setString(2, description);
@@ -73,9 +72,10 @@ public class DBAppointments {
         ps.setInt(12, userID);
         ps.setInt(13, contactID);
 
-        int rowsAffected = ps.executeUpdate();
+        int rs = ps.executeUpdate();
 
-        return rowsAffected;
+        return rs;
+
     }
 
     public static int appointmentDelete(int appID) throws SQLException{

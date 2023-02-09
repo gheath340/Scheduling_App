@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DBConnection.iml" filepath="$PROJECT_DIR$/DBConnection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Scheduling_App.iml" filepath="$PROJECT_DIR$/Scheduling_App.iml" />
     </modules>
   </component>
 </project>

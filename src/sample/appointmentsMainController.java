@@ -57,10 +57,6 @@ public class appointmentsMainController implements Initializable {
             customerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
             userID.setCellValueFactory(new PropertyValueFactory<>("userID"));
             contactID.setCellValueFactory(new PropertyValueFactory<>("contactID"));
-            for (Appointment appointment : appointments){
-                System.out.println(appointment.getStart());
-                System.out.println(appointment.getConvertedStart());
-            }
 
             table.setItems(appointments);
         } catch (SQLException throwables) {

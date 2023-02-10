@@ -18,7 +18,7 @@ public class Appointment {
     private Timestamp end;
     private Timestamp lastUpdate;
     private String lastUpdatedBy;
-    private Date createDate;
+    private Timestamp createDate;
     private String createdBy;
     private int customerID;
     private int userID;
@@ -26,7 +26,7 @@ public class Appointment {
 
 
     public Appointment(int appointmentID, String title, String description, String location, String type, Timestamp start,
-                    Timestamp end, Timestamp lastUpdate, String lastUpdatedBy, Date createDate, String createdBy, int customerID, int userID, int contactID){
+                    Timestamp end, Timestamp lastUpdate, String lastUpdatedBy, Timestamp createDate, String createdBy, int customerID, int userID, int contactID){
         this.appointmentID = appointmentID;
         this.title = title;
         this.description = description;
@@ -67,7 +67,7 @@ public class Appointment {
         return time;
     }
 
-    public Date getCreateDate(){ return this.createDate; }
+    public Timestamp getCreateDate(){ return this.createDate; }
 
     public String getCreatedBy(){ return this.createdBy; }
 

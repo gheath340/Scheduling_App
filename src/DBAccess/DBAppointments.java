@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import sample.JDBC;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 
 public class DBAppointments {
 
@@ -21,7 +22,8 @@ public class DBAppointments {
             String description = rs.getString("Description");
             String location = rs.getString("Location");
             String type = rs.getString("Type");
-            Date createDate = rs.getDate("Create_Date");
+            Timestamp createDate = rs.getTimestamp("Create_Date");
+            System.out.println(createDate);
             String createdBy = rs.getString("Created_By");
             Timestamp lastUpdate = rs.getTimestamp("Last_Update");
             String lastUpdatedBy = rs.getString("Last_Updated_By");
@@ -55,7 +57,8 @@ public class DBAppointments {
                                       String createdBy, Timestamp lastUpdate, String lastUpdatedBy, Timestamp start, Timestamp end,
                                       int customerID, int userID, int contactID) throws SQLException {
 
-        String sql = "INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Create_Date, Created_By, " +
+                     "Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         System.out.println(lastUpdate);
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
         ps.setString(1, title);

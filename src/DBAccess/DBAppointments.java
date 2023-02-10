@@ -51,12 +51,12 @@ public class DBAppointments {
         return rs;
     }
 
-    public static int appointmentAdd(String title, String description, String location, String type, Date createDate,
+    public static int appointmentAdd(String title, String description, String location, String type, Timestamp createDate,
                                       String createdBy, Timestamp lastUpdate, String lastUpdatedBy, Timestamp start, Timestamp end,
                                       int customerID, int userID, int contactID) throws SQLException {
 
-        String sql = "INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Last_Update," +
-                "Last_Updated_By, Create_Date, Created_By, Customer_ID, User_ID , Contact_ID VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        System.out.println(lastUpdate);
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
         ps.setString(1, title);
         ps.setString(2, description);
@@ -64,10 +64,10 @@ public class DBAppointments {
         ps.setString(4, type);
         ps.setTimestamp(5,start);
         ps.setTimestamp(6, end);
-        ps.setTimestamp(7, lastUpdate);
-        ps.setString(8, lastUpdatedBy);
-        ps.setDate(9, createDate);
-        ps.setString(10, createdBy);
+        ps.setTimestamp(7, createDate);
+        ps.setString(8, createdBy);
+        ps.setTimestamp(9, lastUpdate);
+        ps.setString(10, lastUpdatedBy);
         ps.setInt(11, customerID);
         ps.setInt(12, userID);
         ps.setInt(13, contactID);

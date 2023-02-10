@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
@@ -68,7 +69,7 @@ public class addAppointmentController implements Initializable {
         String contact = (String) contactField.getValue();
         int contactID = DBContacts.getContact(contact);
         long millis = System.currentTimeMillis();
-        Date createDate = new Date(millis);
+        Timestamp createDate = new Timestamp(millis);
         Timestamp lastUpdate = new Timestamp(millis);
         String user = LoginController.getUser();
 

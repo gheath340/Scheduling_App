@@ -90,12 +90,26 @@ public class appointmentsMainController implements Initializable {
         }
     }
 
-    public void deleteButtonClick(ActionEvent actionEvent) {
-
+    public void deleteButtonClick(ActionEvent actionEvent) throws SQLException, IOException {
+        if (table.getSelectionModel().getSelectedItem() != null) {
+            handoff = table.getSelectionModel().getSelectedItem();
+            DBAppointments.appointmentDelete(handoff.getAppointmentID());
+            reloadPage(actionEvent);
+        }else{
+            errorLabel.setText("Please select appointment to delete.");
+        }
     }
 
     public void onExitClick(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Main.class.getResource("customerRecords.fxml"));
+        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 600, 400);
+        stage.setTitle("Customer Records");
+        stage.setScene(scene);
+        stage.show();
+    }
+    public void reloadPage(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(Main.class.getResource("appointmentsMain.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 600, 400);
         stage.setTitle("Customer Records");

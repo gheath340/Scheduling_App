@@ -1,7 +1,9 @@
 package sample;
 
+import DBAccess.DBAppointments;
 import DBAccess.DBCustomers;
 import DBAccess.DBUsers;
+import Model.Appointment;
 import Model.Customer;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -87,8 +89,10 @@ public class customerRecordsController implements Initializable {
     }
 
     public void deleteButtonClick(ActionEvent actionEvent) throws IOException, SQLException {
+        //check all appointments to make sure none of their customer ids match selected customers id
+        errorLabel.setText("");
         Customer selectedCustomer = table.getSelectionModel().getSelectedItem();
-        if (selectedCustomer != null) {
+        if (selectedCustomer != null && customerDeleteCheck(selectedCustomer.getId())) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirm Delete");
             alert.setHeaderText("Confirm Delete of " + selectedCustomer.getName());
@@ -99,8 +103,10 @@ public class customerRecordsController implements Initializable {
                 DBCustomers.customerDelete(selectedCustomer.getId());
                 reloadPage(actionEvent);
             }
-        }else{
+        }else if(selectedCustomer == null){
             errorLabel.setText("Please select a customer");
+        }else if (!customerDeleteCheck(selectedCustomer.getId())){
+            errorLabel.setText("Please delete all of customers appointments before deleting customer");
         }
     }
 
@@ -120,6 +126,21 @@ public class customerRecordsController implements Initializable {
         stage.setTitle("Appointments");
         stage.setScene(scene);
         stage.show();
+    }
+
+    //returns true if okay to be deleted(no appointments associated)
+    public boolean customerDeleteCheck(int id) throws SQLException {
+        //check given customer id against all customer ids in all appointments
+        Boolean checker = true;
+        ObservableList<Appointment> appointments = DBAppointments.appointmentsGet();
+
+        for (Appointment appointment : appointments){
+            int tempID = appointment.getCustomerID();
+            if (tempID == id) {
+                checker = false;
+            }
+        }
+        return checker;
     }
 
 }

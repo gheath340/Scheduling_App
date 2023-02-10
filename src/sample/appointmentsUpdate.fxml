@@ -24,7 +24,7 @@
       <Label layoutX="29.0" layoutY="219.0" text="Location" />
       <Label layoutX="307.0" layoutY="69.0" text="Type" />
       <Label layoutX="307.0" layoutY="119.0" text="Start" />
-      <Button fx:id="updateButton" layoutX="159.0" layoutY="341.0" mnemonicParsing="false" onAction="#onAddClick" text="Update" />
+      <Button fx:id="updateButton" layoutX="159.0" layoutY="341.0" mnemonicParsing="false" onAction="#onUpdateClick" text="Update" />
       <Button fx:id="exitButton" layoutX="439.0" layoutY="341.0" mnemonicParsing="false" onAction="#onExitClick" text="Exit" />
       <Label layoutX="310.0" layoutY="163.0" text="End" />
       <Label layoutX="286.0" layoutY="211.0" text="Customer ID" />

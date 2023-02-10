@@ -68,7 +68,7 @@ public class addAppointmentController implements Initializable {
         String userIDString = userIDField.getText();
         int userID = Integer.valueOf(userIDString);
         String contact = (String) contactField.getValue();
-        int contactID = DBContacts.getContact(contact);
+        int contactID = DBContacts.getContactID(contact);
         long millis = System.currentTimeMillis();
         Timestamp createDate = new Timestamp(millis);
         Timestamp lastUpdate = new Timestamp(millis);

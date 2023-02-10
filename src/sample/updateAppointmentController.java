@@ -1,7 +1,14 @@
 package sample;
 
+import DBAccess.DBAppointments;
+import DBAccess.DBContacts;
+import Model.Appointment;
+import Model.Contact;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,8 +18,12 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ResourceBundle;
 
-public class updateAppointmentController {
+public class updateAppointmentController implements Initializable {
 
     public TextField appIDField;
     public TextField titleField;
@@ -27,8 +38,53 @@ public class updateAppointmentController {
     public TextField userIDField;
     public ComboBox contactField;
 
-    public void onAddClick(ActionEvent actionEvent) {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Appointment selected = appointmentsMainController.appointmentHandoff();
+        appIDField.setText(String.valueOf(selected.getAppointmentID()));
+        titleField.setText(selected.getTitle());
+        locationField.setText(selected.getLocation());
+        descriptionField.setText(selected.getDescription());
+        typeField.setText(selected.getType());
+        startField.setText(String.valueOf(selected.getStart()));
+        endField.setText(String.valueOf(selected.getEnd()));
+        customerIDField.setText(String.valueOf(selected.getCustomerID()));
+        userIDField.setText(String.valueOf(selected.getUserID()));
+        //load all the contact options into combo box and get selected contact name base off contact id
+        try {
+            ObservableList<Contact> contacts = DBContacts.getContacts();
+            ObservableList<String> names = FXCollections.observableArrayList();
+            for (Contact contact : contacts){
+                names.add(contact.getName());
+            }
+            contactField.getItems().addAll(names);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        try {
+            contactField.setValue(DBContacts.getContactName(selected.getContactID()));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 
+    public void onUpdateClick(ActionEvent actionEvent) throws IOException, SQLException {
+        int appID = Integer.valueOf(appIDField.getText());
+        String title = titleField.getText();
+        String location = locationField.getText();
+        String description = descriptionField.getText();
+        String type = typeField.getText();
+        Timestamp start = Timestamp.valueOf(startField.getText());
+        Timestamp end = Timestamp.valueOf(endField.getText());
+        int customerID = Integer.parseInt(customerIDField.getText());
+        int userID = Integer.parseInt(userIDField.getText());
+        int contactID = DBContacts.getContactID((String) contactField.getValue());
+
+        long millis=System.currentTimeMillis();
+        Timestamp lastUpdated = new Timestamp(millis);
+        String lastUpdatedBy = LoginController.getUser();
+        DBAppointments.updateAppointment(appID, title, description, location, type, lastUpdated, lastUpdatedBy, start, end, customerID, userID, contactID);
+        onExitClick(actionEvent);
     }
 
     public void onExitClick(ActionEvent actionEvent) throws IOException {
@@ -39,4 +95,5 @@ public class updateAppointmentController {
         stage.setScene(scene);
         stage.show();
     }
+
 }

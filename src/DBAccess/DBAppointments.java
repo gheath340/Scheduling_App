@@ -89,18 +89,24 @@ public class DBAppointments {
 
         return rowsAffected;
     }
-    // still need to change
-    public static int updateAppointment(int customerID, String name, String address, String postal, String phone, Timestamp lastUpdate, String lastUpdatedBy, int divisionID) throws SQLException {
-        String sql = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = ?";
+
+    public static int updateAppointment(int appID, String title, String description, String location, String type, Timestamp lastUpdate,
+                                        String lastUpdatedBy, Timestamp start, Timestamp end, int customerID, int userID, int contactID) throws SQLException {
+        String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = ?, " +
+                "Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-        ps.setString(1, name);
-        ps.setString(2, address);
-        ps.setString(3, postal);
-        ps.setString(4, phone);
-        ps.setTimestamp(5, lastUpdate);
-        ps.setString(6, lastUpdatedBy);
-        ps.setInt(7, divisionID);
-        ps.setInt(8, customerID);
+        ps.setString(1, title);
+        ps.setString(2, description);
+        ps.setString(3, location);
+        ps.setString(4, type);
+        ps.setTimestamp(5, start);
+        ps.setTimestamp(6, end);
+        ps.setTimestamp(7, lastUpdate);
+        ps.setString(8, lastUpdatedBy);
+        ps.setInt(9, customerID);
+        ps.setInt(10, userID);
+        ps.setInt(11, contactID);
+        ps.setInt(12, appID);
 
         int rowsAffected = ps.executeUpdate();
 

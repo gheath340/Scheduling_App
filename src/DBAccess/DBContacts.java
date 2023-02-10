@@ -27,7 +27,7 @@ public class DBContacts {
         return contacts;
     }
 
-    public static int getContact(String name) throws SQLException {
+    public static int getContactID(String name) throws SQLException {
         String sql = "SELECT * FROM contacts WHERE Contact_Name = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
         ps.setString(1, name);
@@ -38,5 +38,18 @@ public class DBContacts {
             id = rs.getInt("Contact_ID");
         }
         return id;
+    }
+
+    public static String getContactName(int id) throws SQLException {
+        String sql = "SELECT * FROM contacts WHERE Contact_ID = ?";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        String name = "";
+
+        while (rs.next()) {
+            name = rs.getString("Contact_Name");
+        }
+        return name;
     }
 }

@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 
 public class appointmentsMainController implements Initializable {
 
-    public TableView table;
+    public TableView<Appointment> table;
     public TableColumn title;
     public TableColumn description;
     public TableColumn location;
@@ -76,12 +76,18 @@ public class appointmentsMainController implements Initializable {
     }
 
     public void updateButtonClick(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(Main.class.getResource("appointmentsUpdate.fxml"));
-        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 600, 400);
-        stage.setTitle("Update appointment");
-        stage.setScene(scene);
-        stage.show();
+        if (table.getSelectionModel().getSelectedItem() != null) {
+            handoff = table.getSelectionModel().getSelectedItem();
+
+            Parent root = FXMLLoader.load(Main.class.getResource("appointmentsUpdate.fxml"));
+            Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 600, 400);
+            stage.setTitle("Update appointment");
+            stage.setScene(scene);
+            stage.show();
+        }else{
+            errorLabel.setText("Please select appointment to update.");
+        }
     }
 
     public void deleteButtonClick(ActionEvent actionEvent) {

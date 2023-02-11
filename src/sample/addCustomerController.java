@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -33,6 +34,7 @@ public class addCustomerController implements Initializable {
     public ComboBox stateField;
     public Button addButton;
     public Button exitButton;
+    public Label errorLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -69,7 +71,7 @@ public class addCustomerController implements Initializable {
         }
     }
 
-    public void onAddClick(ActionEvent actionEvent) throws SQLException {
+    public void onAddClick(ActionEvent actionEvent) throws SQLException, IOException {
         String name = nameField.getText();
         String address = addressField.getText();
         String postalCode = postalField.getText();
@@ -80,8 +82,12 @@ public class addCustomerController implements Initializable {
         Timestamp timeStamp = new Timestamp(millis);
         String division = (String) stateField.getValue();
         int divisionID = DBDivisions.getDivisionID(division);
-
-        DBCustomers.customerAdd(name, address, postalCode, number, date, createdBy, timeStamp, createdBy, divisionID);
+        if (!name.equals("") && !address.equals("") && !postalCode.equals("") && !number.equals("") && division != null) {
+            DBCustomers.customerAdd(name, address, postalCode, number, date, createdBy, timeStamp, createdBy, divisionID);
+            onExitClick(actionEvent);
+        }else{
+            errorLabel.setText("Make sure all fields are filled");
+        }
     }
 
     public void onExitClick(ActionEvent actionEvent) throws IOException {

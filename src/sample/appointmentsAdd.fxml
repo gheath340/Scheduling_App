@@ -34,5 +34,6 @@
       <TextField fx:id="customerIDField" layoutX="370.0" layoutY="226.0" />
       <TextField fx:id="userIDField" layoutX="370.0" layoutY="277.0" />
       <ComboBox fx:id="contactField" layoutX="121.0" layoutY="265.0" prefWidth="150.0" />
+      <Label fx:id="errorLabel" layoutX="53.0" layoutY="318.0" />
    </children>
 </AnchorPane>

@@ -28,5 +28,6 @@
       <Label layoutX="272.0" layoutY="200.0" text="State/Province" />
       <Button fx:id="addButton" layoutX="149.0" layoutY="331.0" mnemonicParsing="false" onAction="#onAddClick" text="Add" />
       <Button fx:id="exitButton" layoutX="429.0" layoutY="331.0" mnemonicParsing="false" onAction="#onExitClick" text="Exit" />
+      <Label fx:id="errorLabel" layoutX="300.0" layoutY="299.0" />
    </children>
 </AnchorPane>

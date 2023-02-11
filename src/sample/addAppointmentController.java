@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -22,6 +23,8 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 
 public class addAppointmentController implements Initializable {
@@ -37,6 +40,7 @@ public class addAppointmentController implements Initializable {
     public TextField customerIDField;
     public TextField userIDField;
     public ComboBox contactField;
+    public Label errorLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -60,9 +64,29 @@ public class addAppointmentController implements Initializable {
         String type = typeField.getText();
         String startString = startField.getText() + ":00";
         System.out.println(startString);
-        Timestamp start = Timestamp.valueOf(startString);
+        //check is start string is valid then make timestamp
+        Timestamp start = null;
+        Timestamp end = null;
+        Boolean startValid = null;
+        Boolean endValid = null;
+        if(isTimeStampValid(startString)){
+            //start = Timestamp.valueOf(startString);
+            startValid = true;
+        }else{
+            errorLabel.setText("Start time is invalid");
+            startValid = false;
+        }
+        System.out.println(startValid);
         String endString = endField.getText() + ":00";
-        Timestamp end = Timestamp.valueOf(endString);
+        //check if end string is valid then make timestamp
+        if(isTimeStampValid(endString)){
+            //end = Timestamp.valueOf(endString);
+            endValid = true;
+        }else{
+            errorLabel.setText("End time is invalid");
+            endValid = false;
+        }
+        System.out.println(endValid);
         String customerIDString = customerIDField.getText();
         int customerID = Integer.valueOf(customerIDString);
         String userIDString = userIDField.getText();
@@ -73,10 +97,14 @@ public class addAppointmentController implements Initializable {
         Timestamp createDate = new Timestamp(millis);
         Timestamp lastUpdate = new Timestamp(millis);
         String user = LoginController.getUser();
+        //check and make sure valid dates and times
+        if(startValid && endValid) {
+            DBAppointments.appointmentAdd(title, description, location, type, createDate, user, lastUpdate,
+                    user, start, end, customerID, userID, contactID);
+            onExitClick(actionEvent);
+        }
+        //check to make sure customer and userIDs are valid
 
-        DBAppointments.appointmentAdd(title, description, location, type, createDate, user, lastUpdate,
-                user, start, end, customerID, userID, contactID);
-        onExitClick(actionEvent);
     }
 
     public void onExitClick(ActionEvent actionEvent) throws IOException {
@@ -87,4 +115,18 @@ public class addAppointmentController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    public static Boolean isTimeStampValid(String inputString)
+    {
+        SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try{
+            format.parse(inputString);
+            return true;
+        }
+        catch(ParseException e)
+        {
+            return false;
+        }
+    }
+
 }

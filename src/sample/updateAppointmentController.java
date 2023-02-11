@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -21,6 +22,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ResourceBundle;
 
 public class updateAppointmentController implements Initializable {
@@ -37,6 +40,7 @@ public class updateAppointmentController implements Initializable {
     public TextField customerIDField;
     public TextField userIDField;
     public ComboBox contactField;
+    public Label errorLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -83,8 +87,13 @@ public class updateAppointmentController implements Initializable {
         long millis=System.currentTimeMillis();
         Timestamp lastUpdated = new Timestamp(millis);
         String lastUpdatedBy = LoginController.getUser();
-        DBAppointments.updateAppointment(appID, title, description, location, type, lastUpdated, lastUpdatedBy, start, end, customerID, userID, contactID);
-        onExitClick(actionEvent);
+        if(validAppointmentTime(start, end)){
+            DBAppointments.updateAppointment(appID, title, description, location, type, lastUpdated, lastUpdatedBy, start, end, customerID, userID, contactID);
+            onExitClick(actionEvent);
+        }else{
+            errorLabel.setText("Make sure appointment times are within buisness hours(int EST)");
+        }
+
     }
 
     public void onExitClick(ActionEvent actionEvent) throws IOException {
@@ -94,6 +103,23 @@ public class updateAppointmentController implements Initializable {
         stage.setTitle("Appointments");
         stage.setScene(scene);
         stage.show();
+    }
+
+    public Boolean validAppointmentTime(Timestamp start, Timestamp end){
+        //make sure times are within 8am and 10pm eastern
+        LocalDateTime convertedStart = start.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
+        LocalDateTime convertedEnd = end.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
+        int startHour = convertedStart.getHour();
+        int startMinute = convertedStart.getMinute();
+        int endHour = convertedEnd.getHour();
+        int endMinute = convertedEnd.getMinute();
+        if (startHour <= 7 || startHour >= 22 || endHour <= 7 || endHour >= 22){
+            //invalid
+            return false;
+        }else {
+            //valid
+            return true;
+        }
     }
 
 }

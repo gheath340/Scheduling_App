@@ -22,6 +22,8 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ResourceBundle;
 
 public class addAppointmentController implements Initializable {
@@ -76,10 +78,12 @@ public class addAppointmentController implements Initializable {
         Timestamp createDate = new Timestamp(millis);
         Timestamp lastUpdate = new Timestamp(millis);
         String user = LoginController.getUser();
-        //check and make sure valid dates and times
-        DBAppointments.appointmentAdd(title, description, location, type, createDate, user, lastUpdate, user, start, end, customerID, userID, contactID);
-        onExitClick(actionEvent);
-        //check to make sure customer and userIDs are valid
+        if(validAppointmentTime(start, end)){
+            DBAppointments.appointmentAdd(title, description, location, type, createDate, user, lastUpdate, user, start, end, customerID, userID, contactID);
+            onExitClick(actionEvent);
+        }else{
+            errorLabel.setText("Make sure appointment times are within buisness hours(int EST)");
+        }
 
     }
 
@@ -92,16 +96,20 @@ public class addAppointmentController implements Initializable {
         stage.show();
     }
 
-    public static Boolean isTimeStampValid(String inputString)
-    {
-        SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try{
-            format.parse(inputString);
-            return true;
-        }
-        catch(ParseException e)
-        {
+    public Boolean validAppointmentTime(Timestamp start, Timestamp end){
+        //make sure times are within 8am and 10pm eastern
+        LocalDateTime convertedStart = start.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
+        LocalDateTime convertedEnd = end.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
+        int startHour = convertedStart.getHour();
+        int startMinute = convertedStart.getMinute();
+        int endHour = convertedEnd.getHour();
+        int endMinute = convertedEnd.getMinute();
+        if (startHour <= 7 || startHour >= 22 || endHour <= 7 || endHour >= 22){
+            //invalid
             return false;
+        }else {
+            //valid
+            return true;
         }
     }
 

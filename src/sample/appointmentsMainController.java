@@ -1,6 +1,7 @@
 package sample;
 
 import DBAccess.DBAppointments;
+import DBAccess.DBCustomers;
 import Model.Appointment;
 import Model.Customer;
 import javafx.collections.ObservableList;
@@ -10,16 +11,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class appointmentsMainController implements Initializable {
@@ -94,7 +93,16 @@ public class appointmentsMainController implements Initializable {
         if (table.getSelectionModel().getSelectedItem() != null) {
             handoff = table.getSelectionModel().getSelectedItem();
             DBAppointments.appointmentDelete(handoff.getAppointmentID());
-            reloadPage(actionEvent);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm Delete");
+            alert.setHeaderText("Confirm Delete");
+            alert.setContentText("Confirm Delete of appointment ID: " + handoff.getAppointmentID() + " and appointment type: " + handoff.getType());
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                DBAppointments.appointmentDelete(handoff.getAppointmentID());
+                reloadPage(actionEvent);
+            }
         }else{
             errorLabel.setText("Please select appointment to delete.");
         }

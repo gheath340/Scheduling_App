@@ -118,31 +118,52 @@ public class appointmentsMainController implements Initializable {
         stage.show();
     }
 
-    public void monthRadioClick(ActionEvent actionEvent) throws SQLException {
+    public void monthRadioClick(ActionEvent actionEvent) throws SQLException, IOException {
         //filter appointments by those who are in the users current month
         weekRadio.setSelected(false);
         //check for all appointments that year and month match users current
-        ObservableList<Appointment> validAppointments = FXCollections.observableArrayList();
-        ObservableList<Appointment> appointments = DBAppointments.appointmentsGet();
-        for (Appointment appointment : appointments){
-            LocalDate appDate = appointment.getStart().toLocalDateTime().toLocalDate();
-            LocalDate today = LocalDate.now();
-            Period difference = Period.between(appDate, today);
-            int years = difference.getYears();
-            int months = difference.getMonths();
-            if (years == 0 && months == 0){
-                validAppointments.add(appointment);
+        if (monthRadio.isSelected()) {
+            ObservableList<Appointment> validAppointments = FXCollections.observableArrayList();
+            ObservableList<Appointment> appointments = DBAppointments.appointmentsGet();
+            for (Appointment appointment : appointments) {
+                LocalDate appDate = appointment.getStart().toLocalDateTime().toLocalDate();
+                LocalDate today = LocalDate.now();
+                Period difference = Period.between(appDate, today);
+                int years = difference.getYears();
+                int months = difference.getMonths();
+                if (years == 0 && months == 0) {
+                    validAppointments.add(appointment);
+                }
             }
+            loadAppointments(validAppointments);
+        }else{
+            reloadPage(actionEvent);
         }
-        loadAppointments(validAppointments);
 
     }
 
-    public void weekRadioClick(ActionEvent actionEvent) throws SQLException {
+    public void weekRadioClick(ActionEvent actionEvent) throws SQLException, IOException {
         //filter appointments by those who are in the users current week
         monthRadio.setSelected(false);
         //check for appointments that are within + 7 days of users current
-        ObservableList<Appointment> appointments = DBAppointments.appointmentsGet();
+        if (weekRadio.isSelected()) {
+            ObservableList<Appointment> validAppointments = FXCollections.observableArrayList();
+            ObservableList<Appointment> appointments = DBAppointments.appointmentsGet();
+            for (Appointment appointment : appointments) {
+                LocalDate appDate = appointment.getStart().toLocalDateTime().toLocalDate();
+                LocalDate today = LocalDate.now();
+                Period difference = Period.between(appDate, today);
+                int years = difference.getYears();
+                int months = difference.getMonths();
+                int days = difference.getDays();
+                if (years == 0 && months == 0 && days < 7 && -7 < days) {
+                    validAppointments.add(appointment);
+                }
+            }
+            loadAppointments(validAppointments);
+        }else{
+            reloadPage(actionEvent);
+        }
 
     }
 

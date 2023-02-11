@@ -4,6 +4,7 @@ import DBAccess.DBAppointments;
 import DBAccess.DBCustomers;
 import Model.Appointment;
 import Model.Customer;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -38,26 +42,15 @@ public class appointmentsMainController implements Initializable {
     public Button deleteButton;
     public Label errorLabel;
     public Button exitButton;
+    public RadioButton monthRadio;
+    public RadioButton weekRadio;
 
     public static Appointment handoff = null;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         try {
-            ObservableList<Appointment> appointments = DBAppointments.appointmentsGet();
-
-            title.setCellValueFactory(new PropertyValueFactory<>("title"));
-            description.setCellValueFactory(new PropertyValueFactory<>("description"));
-            location.setCellValueFactory(new PropertyValueFactory<>("location"));
-            type.setCellValueFactory(new PropertyValueFactory<>("type"));
-            start.setCellValueFactory(new PropertyValueFactory<>("start"));
-            end.setCellValueFactory(new PropertyValueFactory<>("end"));
-            customerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-            userID.setCellValueFactory(new PropertyValueFactory<>("userID"));
-            contactID.setCellValueFactory(new PropertyValueFactory<>("contactID"));
-
-            table.setItems(appointments);
+            loadAppointments(DBAppointments.appointmentsGet());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -123,5 +116,48 @@ public class appointmentsMainController implements Initializable {
         stage.setTitle("Customer Records");
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void monthRadioClick(ActionEvent actionEvent) throws SQLException {
+        //filter appointments by those who are in the users current month
+        weekRadio.setSelected(false);
+        //check for all appointments that year and month match users current
+        ObservableList<Appointment> validAppointments = FXCollections.observableArrayList();
+        ObservableList<Appointment> appointments = DBAppointments.appointmentsGet();
+        for (Appointment appointment : appointments){
+            LocalDate appDate = appointment.getStart().toLocalDateTime().toLocalDate();
+            LocalDate today = LocalDate.now();
+            Period difference = Period.between(appDate, today);
+            int years = difference.getYears();
+            int months = difference.getMonths();
+            if (years == 0 && months == 0){
+                validAppointments.add(appointment);
+            }
+        }
+        loadAppointments(validAppointments);
+
+    }
+
+    public void weekRadioClick(ActionEvent actionEvent) throws SQLException {
+        //filter appointments by those who are in the users current week
+        monthRadio.setSelected(false);
+        //check for appointments that are within + 7 days of users current
+        ObservableList<Appointment> appointments = DBAppointments.appointmentsGet();
+
+    }
+
+    public void loadAppointments(ObservableList<Appointment> appointments){
+
+        title.setCellValueFactory(new PropertyValueFactory<>("title"));
+        description.setCellValueFactory(new PropertyValueFactory<>("description"));
+        location.setCellValueFactory(new PropertyValueFactory<>("location"));
+        type.setCellValueFactory(new PropertyValueFactory<>("type"));
+        start.setCellValueFactory(new PropertyValueFactory<>("start"));
+        end.setCellValueFactory(new PropertyValueFactory<>("end"));
+        customerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        userID.setCellValueFactory(new PropertyValueFactory<>("userID"));
+        contactID.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+
+        table.setItems(appointments);
     }
 }

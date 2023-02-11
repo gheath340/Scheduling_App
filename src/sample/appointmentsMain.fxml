@@ -14,8 +14,8 @@
             <TableColumn fx:id="description" prefWidth="100.0" text="Description" />
             <TableColumn fx:id="location" prefWidth="100.0" text="Location" />
             <TableColumn fx:id="type" prefWidth="100.0" text="Type" />
-            <TableColumn fx:id="start" prefWidth="100.0" text="Start" />
-            <TableColumn fx:id="end" prefWidth="100.0" text="End" />
+            <TableColumn fx:id="start" prefWidth="125.0" text="Start" />
+            <TableColumn fx:id="end" prefWidth="125.0" text="End" />
             <TableColumn fx:id="customerID" prefWidth="100.0" text=" Customer ID" />
             <TableColumn fx:id="userID" prefWidth="100.0" text="User ID" />
             <TableColumn fx:id="contactID" prefWidth="100.0" text="Contact ID" />

@@ -12,16 +12,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ResourceBundle;
@@ -35,12 +34,14 @@ public class updateAppointmentController implements Initializable {
     public Button updateButton;
     public Button exitButton;
     public TextField typeField;
-    public TextField startField;
-    public TextField endField;
     public TextField customerIDField;
     public TextField userIDField;
     public ComboBox contactField;
     public Label errorLabel;
+    public TextField startTimeField;
+    public TextField endTimeField;
+    public DatePicker startDateField;
+    public DatePicker endDateField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -50,8 +51,13 @@ public class updateAppointmentController implements Initializable {
         locationField.setText(selected.getLocation());
         descriptionField.setText(selected.getDescription());
         typeField.setText(selected.getType());
-        startField.setText(String.valueOf(selected.getStart()));
-        endField.setText(String.valueOf(selected.getEnd()));
+        startDateField.setValue(selected.getStart().toLocalDateTime().toLocalDate());
+        SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm");
+        String startTime = sdfTime.format(selected.getStart());
+        startTimeField.setText(startTime);
+        endDateField.setValue(selected.getStart().toLocalDateTime().toLocalDate());
+        String endTime = sdfTime.format(selected.getEnd());
+        endTimeField.setText(endTime);
         customerIDField.setText(String.valueOf(selected.getCustomerID()));
         userIDField.setText(String.valueOf(selected.getUserID()));
         //load all the contact options into combo box and get selected contact name base off contact id
@@ -78,8 +84,10 @@ public class updateAppointmentController implements Initializable {
         String location = locationField.getText();
         String description = descriptionField.getText();
         String type = typeField.getText();
-        Timestamp start = Timestamp.valueOf(startField.getText());
-        Timestamp end = Timestamp.valueOf(endField.getText());
+        String startString = startDateField.getValue() + " " + startTimeField.getText() + ":00";
+        Timestamp start = Timestamp.valueOf(startString);
+        String endString = endDateField.getValue() + " " + endTimeField.getText() + ":00";
+        Timestamp end = Timestamp.valueOf(endString);
         int customerID = Integer.parseInt(customerIDField.getText());
         int userID = Integer.parseInt(userIDField.getText());
         int contactID = DBContacts.getContactID((String) contactField.getValue());

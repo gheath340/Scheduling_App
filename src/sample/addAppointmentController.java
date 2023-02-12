@@ -64,7 +64,6 @@ public class addAppointmentController implements Initializable {
         String description = descriptionField.getText();
         String type = typeField.getText();
         String startString = startDateField.getValue() + " " + startTimeField.getText() + ":00";
-        System.out.println(startString);
         Timestamp start = Timestamp.valueOf(startString);
         String endString = endDateField.getValue() + " " + endTimeField.getText() + ":00";
         Timestamp end = Timestamp.valueOf(endString);

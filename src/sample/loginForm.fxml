@@ -14,5 +14,6 @@
       <Label fx:id="loginError" layoutX="94.0" layoutY="248.0" />
       <Button fx:id="loginButton" layoutX="256.0" layoutY="265.0" mnemonicParsing="false" onAction="#loginOnClick" text="Login" />
       <Label fx:id="zoneLabel" layoutX="450.0" layoutY="28.0" prefHeight="17.0" prefWidth="120.0" />
+      <Label fx:id="appointmentLabel" layoutX="154.0" layoutY="332.0" prefHeight="17.0" prefWidth="390.0" />
    </children>
 </AnchorPane>

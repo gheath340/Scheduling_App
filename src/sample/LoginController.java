@@ -1,7 +1,9 @@
 package sample;
 
+import DBAccess.DBAppointments;
 import DBAccess.DBCountries;
 import DBAccess.DBUsers;
+import Model.Appointment;
 import Model.Countries;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,6 +34,7 @@ public class LoginController implements Initializable{
     public Label zoneLabel;
     public Label usernameLabel;
     public Label passwordLabel;
+    public Label appointmentLabel;
 
     public static String user = "";
 
@@ -48,6 +51,7 @@ public class LoginController implements Initializable{
         }else {
             System.out.println("Its in english");
         }
+
     }
 
     public static String getUser(){ return user; }

@@ -39,6 +39,7 @@ public class customerRecordsController implements Initializable {
 
     public static Customer handoff = null;
     public Button appointmentsButton;
+    public Label appointmentLabel;
 
 
     @Override
@@ -56,6 +57,24 @@ public class customerRecordsController implements Initializable {
 
             table.setItems(customers);
 
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        Long currentTime = System.currentTimeMillis();
+        Boolean appSoon = false;
+        try {
+            ObservableList<Appointment> appointments = DBAppointments.appointmentsGet();
+            for (Appointment appointment : appointments){
+                Long difference = (appointment.getStart().getTime() - currentTime);
+                if (difference <= 900000 && difference > 0){
+                    appSoon = true;
+                    appointmentLabel.setText("Appointment ID: " + appointment.getAppointmentID() + " at " + appointment.getStart() + " is coming up.");
+                }
+            }
+            if (!appSoon){
+                appointmentLabel.setText("No appointments in the next 15 minutes.");
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

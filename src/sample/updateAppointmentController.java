@@ -95,11 +95,13 @@ public class updateAppointmentController implements Initializable {
         long millis=System.currentTimeMillis();
         Timestamp lastUpdated = new Timestamp(millis);
         String lastUpdatedBy = LoginController.getUser();
-        if(validAppointmentTime(start, end)){
+        if(validAppointmentTime(start, end) && !appointmentOverlap()){
             DBAppointments.updateAppointment(appID, title, description, location, type, lastUpdated, lastUpdatedBy, start, end, customerID, userID, contactID);
             onExitClick(actionEvent);
-        }else{
+        }else if (!validAppointmentTime(start, end)){
             errorLabel.setText("Make sure appointment times are within buisness hours(int EST)");
+        }else{
+            errorLabel.setText("Make sure customer appointment times are not overlapping");
         }
 
     }
@@ -120,6 +122,27 @@ public class updateAppointmentController implements Initializable {
         int startHour = convertedStart.getHour();
         int endHour = convertedEnd.getHour();
         return startHour > 7 && startHour < 22 && endHour > 7 && endHour < 22;
+    }
+
+    public Boolean appointmentOverlap() throws SQLException {
+        Boolean overlaps = false;
+        ObservableList<Appointment> appointments = DBAppointments.appointmentsByCustomerID(Integer.parseInt(customerIDField.getText()));
+        String startString = startDateField.getValue() + " " + startTimeField.getText() + ":00";
+        Timestamp start = Timestamp.valueOf(startString);
+        String endString = endDateField.getValue() + " " + endTimeField.getText() + ":00";
+        Timestamp end = Timestamp.valueOf(endString);
+
+        for (Appointment appointment : appointments){
+
+            Boolean startCheck = appointment.getStart().getTime() >= start.getTime() && appointment.getStart().getTime() <= end.getTime();
+            Boolean endCheck = appointment.getEnd().getTime() >= start.getTime() && appointment.getEnd().getTime() <= end.getTime();
+
+            if (startCheck || endCheck){
+                overlaps = true;
+            }
+        }
+
+        return overlaps;
     }
 
 }

@@ -22,7 +22,6 @@ public class DBAppointments {
             String location = rs.getString("Location");
             String type = rs.getString("Type");
             Timestamp createDate = rs.getTimestamp("Create_Date");
-            System.out.println(createDate);
             String createdBy = rs.getString("Created_By");
             Timestamp lastUpdate = rs.getTimestamp("Last_Update");
             String lastUpdatedBy = rs.getString("Last_Updated_By");
@@ -54,7 +53,6 @@ public class DBAppointments {
             String location = rs.getString("Location");
             String type = rs.getString("Type");
             Timestamp createDate = rs.getTimestamp("Create_Date");
-            System.out.println(createDate);
             String createdBy = rs.getString("Created_By");
             Timestamp lastUpdate = rs.getTimestamp("Last_Update");
             String lastUpdatedBy = rs.getString("Last_Updated_By");
@@ -90,7 +88,6 @@ public class DBAppointments {
 
         String sql = "INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Create_Date, Created_By, " +
                      "Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        System.out.println(lastUpdate);
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
         ps.setString(1, title);
         ps.setString(2, description);

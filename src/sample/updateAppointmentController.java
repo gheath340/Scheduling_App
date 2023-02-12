@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 
 public class updateAppointmentController implements Initializable {
 
@@ -52,7 +53,7 @@ public class updateAppointmentController implements Initializable {
         descriptionField.setText(selected.getDescription());
         typeField.setText(selected.getType());
         startDateField.setValue(selected.getStart().toLocalDateTime().toLocalDate());
-        SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
         String startTime = sdfTime.format(selected.getStart());
         startTimeField.setText(startTime);
         endDateField.setValue(selected.getStart().toLocalDateTime().toLocalDate());
@@ -126,7 +127,11 @@ public class updateAppointmentController implements Initializable {
 
     public Boolean appointmentOverlap() throws SQLException {
         Boolean overlaps = false;
+        //remove appointment where appointment id = selected app id
+        Appointment selected = appointmentsMainController.appointmentHandoff();
         ObservableList<Appointment> appointments = DBAppointments.appointmentsByCustomerID(Integer.parseInt(customerIDField.getText()));
+
+        appointments.removeIf(appointment -> appointment.getAppointmentID() == selected.getAppointmentID());
         String startString = startDateField.getValue() + " " + startTimeField.getText() + ":00";
         Timestamp start = Timestamp.valueOf(startString);
         String endString = endDateField.getValue() + " " + endTimeField.getText() + ":00";

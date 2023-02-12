@@ -20,9 +20,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class updateAppointmentController implements Initializable {
@@ -36,7 +36,7 @@ public class updateAppointmentController implements Initializable {
     public TextField typeField;
     public TextField customerIDField;
     public TextField userIDField;
-    public ComboBox contactField;
+    public ComboBox<String> contactField;
     public Label errorLabel;
     public TextField startTimeField;
     public TextField endTimeField;
@@ -79,7 +79,7 @@ public class updateAppointmentController implements Initializable {
     }
 
     public void onUpdateClick(ActionEvent actionEvent) throws IOException, SQLException {
-        int appID = Integer.valueOf(appIDField.getText());
+        int appID = Integer.parseInt(appIDField.getText());
         String title = titleField.getText();
         String location = locationField.getText();
         String description = descriptionField.getText();
@@ -90,7 +90,7 @@ public class updateAppointmentController implements Initializable {
         Timestamp end = Timestamp.valueOf(endString);
         int customerID = Integer.parseInt(customerIDField.getText());
         int userID = Integer.parseInt(userIDField.getText());
-        int contactID = DBContacts.getContactID((String) contactField.getValue());
+        int contactID = DBContacts.getContactID(contactField.getValue());
 
         long millis=System.currentTimeMillis();
         Timestamp lastUpdated = new Timestamp(millis);
@@ -105,7 +105,7 @@ public class updateAppointmentController implements Initializable {
     }
 
     public void onExitClick(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(Main.class.getResource("appointmentsMain.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("appointmentsMain.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 600, 400);
         stage.setTitle("Appointments");
@@ -118,16 +118,8 @@ public class updateAppointmentController implements Initializable {
         LocalDateTime convertedStart = start.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
         LocalDateTime convertedEnd = end.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
         int startHour = convertedStart.getHour();
-        int startMinute = convertedStart.getMinute();
         int endHour = convertedEnd.getHour();
-        int endMinute = convertedEnd.getMinute();
-        if (startHour <= 7 || startHour >= 22 || endHour <= 7 || endHour >= 22){
-            //invalid
-            return false;
-        }else {
-            //valid
-            return true;
-        }
+        return startHour > 7 && startHour < 22 && endHour > 7 && endHour < 22;
     }
 
 }

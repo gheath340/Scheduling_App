@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import sample.JDBC;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 
 public class DBAppointments {
 
@@ -41,6 +40,38 @@ public class DBAppointments {
         return appointments;
     }
 
+    public static ObservableList<Appointment> appointmentsByCustomerID(int customerID) throws SQLException{
+        String sql = "SELECT * FROM appointments WHERE Customer_ID = ?";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ps.setInt(1, customerID);
+        ResultSet rs = ps.executeQuery();
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+
+        while (rs.next()) {
+            int appID = rs.getInt("Appointment_ID");
+            String title = rs.getString("Title");
+            String description = rs.getString("Description");
+            String location = rs.getString("Location");
+            String type = rs.getString("Type");
+            Timestamp createDate = rs.getTimestamp("Create_Date");
+            System.out.println(createDate);
+            String createdBy = rs.getString("Created_By");
+            Timestamp lastUpdate = rs.getTimestamp("Last_Update");
+            String lastUpdatedBy = rs.getString("Last_Updated_By");
+            Timestamp start = rs.getTimestamp("Start");
+            Timestamp end = rs.getTimestamp("End");
+            int cID = rs.getInt("Customer_ID");
+            int userID = rs.getInt("User_ID");
+            int contactID = rs.getInt("Contact_ID");
+
+            Appointment appointment = new Appointment(appID, title, description, location, type, start, end, lastUpdate,
+                    lastUpdatedBy, createDate, createdBy, cID, userID, contactID);
+            appointments.add(appointment);
+
+        }
+        return appointments;
+    }
+
     public static ResultSet appointmentGet(int appID) throws SQLException {
         String sql = "SELECT * FROM appointments WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -53,7 +84,7 @@ public class DBAppointments {
         return rs;
     }
 
-    public static int appointmentAdd(String title, String description, String location, String type, Timestamp createDate,
+    public static void appointmentAdd(String title, String description, String location, String type, Timestamp createDate,
                                       String createdBy, Timestamp lastUpdate, String lastUpdatedBy, Timestamp start, Timestamp end,
                                       int customerID, int userID, int contactID) throws SQLException {
 
@@ -75,23 +106,20 @@ public class DBAppointments {
         ps.setInt(12, userID);
         ps.setInt(13, contactID);
 
-        int rs = ps.executeUpdate();
-
-        return rs;
+        ps.executeUpdate();
 
     }
 
-    public static int appointmentDelete(int appID) throws SQLException{
+    public static void appointmentDelete(int appID) throws SQLException{
         String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
         ps.setInt(1, appID);
-        int rowsAffected = ps.executeUpdate();
+        ps.executeUpdate();
 
-        return rowsAffected;
     }
 
-    public static int updateAppointment(int appID, String title, String description, String location, String type, Timestamp lastUpdate,
-                                        String lastUpdatedBy, Timestamp start, Timestamp end, int customerID, int userID, int contactID) throws SQLException {
+    public static void updateAppointment(int appID, String title, String description, String location, String type, Timestamp lastUpdate,
+                                         String lastUpdatedBy, Timestamp start, Timestamp end, int customerID, int userID, int contactID) throws SQLException {
         String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = ?, " +
                 "Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -115,6 +143,5 @@ public class DBAppointments {
         }else{
             System.out.println("Update failed");
         }
-        return rowsAffected;
     }
 }

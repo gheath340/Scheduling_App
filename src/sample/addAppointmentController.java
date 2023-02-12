@@ -2,6 +2,7 @@ package sample;
 
 import DBAccess.DBAppointments;
 import DBAccess.DBContacts;
+import Model.Appointment;
 import Model.Contact;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,14 +17,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class addAppointmentController implements Initializable {
@@ -36,7 +35,7 @@ public class addAppointmentController implements Initializable {
     public TextField typeField;
     public TextField customerIDField;
     public TextField userIDField;
-    public ComboBox contactField;
+    public ComboBox<String> contactField;
     public Label errorLabel;
     public TextField startTimeField;
     public TextField endTimeField;
@@ -68,26 +67,28 @@ public class addAppointmentController implements Initializable {
         String endString = endDateField.getValue() + " " + endTimeField.getText() + ":00";
         Timestamp end = Timestamp.valueOf(endString);
         String customerIDString = customerIDField.getText();
-        int customerID = Integer.valueOf(customerIDString);
+        int customerID = Integer.parseInt(customerIDString);
         String userIDString = userIDField.getText();
-        int userID = Integer.valueOf(userIDString);
-        String contact = (String) contactField.getValue();
+        int userID = Integer.parseInt(userIDString);
+        String contact = contactField.getValue();
         int contactID = DBContacts.getContactID(contact);
         long millis = System.currentTimeMillis();
         Timestamp createDate = new Timestamp(millis);
         Timestamp lastUpdate = new Timestamp(millis);
         String user = LoginController.getUser();
-        if(validAppointmentTime(start, end)){
+        if(validAppointmentTime(start, end) && !appointmentOverlap()){
             DBAppointments.appointmentAdd(title, description, location, type, createDate, user, lastUpdate, user, start, end, customerID, userID, contactID);
             onExitClick(actionEvent);
-        }else{
+        }else if (!validAppointmentTime(start, end)){
             errorLabel.setText("Make sure appointment times are within buisness hours(int EST)");
+        }else{
+            errorLabel.setText("Make sure customer appointment times are not overlapping");
         }
 
     }
 
     public void onExitClick(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(Main.class.getResource("appointmentsMain.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("appointmentsMain.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 600, 400);
         stage.setTitle("Appointments");
@@ -100,16 +101,29 @@ public class addAppointmentController implements Initializable {
         LocalDateTime convertedStart = start.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
         LocalDateTime convertedEnd = end.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
         int startHour = convertedStart.getHour();
-        int startMinute = convertedStart.getMinute();
         int endHour = convertedEnd.getHour();
-        int endMinute = convertedEnd.getMinute();
-        if (startHour <= 7 || startHour >= 22 || endHour <= 7 || endHour >= 22){
-            //invalid
-            return false;
-        }else {
-            //valid
-            return true;
+        return startHour > 7 && startHour < 22 && endHour > 7 && endHour < 22;
+    }
+
+    public Boolean appointmentOverlap() throws SQLException {
+        Boolean overlaps = false;
+        ObservableList<Appointment> appointments = DBAppointments.appointmentsByCustomerID(Integer.parseInt(customerIDField.getText()));
+        String startString = startDateField.getValue() + " " + startTimeField.getText() + ":00";
+        Timestamp start = Timestamp.valueOf(startString);
+        String endString = endDateField.getValue() + " " + endTimeField.getText() + ":00";
+        Timestamp end = Timestamp.valueOf(endString);
+
+        for (Appointment appointment : appointments){
+
+            Boolean startCheck = appointment.getStart().getTime() >= start.getTime() && appointment.getStart().getTime() <= end.getTime();
+            Boolean endCheck = appointment.getEnd().getTime() >= start.getTime() && appointment.getEnd().getTime() <= end.getTime();
+
+            if (startCheck || endCheck){
+                overlaps = true;
+            }
         }
+
+        return overlaps;
     }
 
 }

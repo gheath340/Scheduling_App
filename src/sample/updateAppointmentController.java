@@ -127,27 +127,31 @@ public class updateAppointmentController implements Initializable {
 
     public Boolean appointmentOverlap() throws SQLException {
         Boolean overlaps = false;
-        //remove appointment where appointment id = selected app id
         Appointment selected = appointmentsMainController.appointmentHandoff();
         ObservableList<Appointment> appointments = DBAppointments.appointmentsByCustomerID(Integer.parseInt(customerIDField.getText()));
 
         appointments.removeIf(appointment -> appointment.getAppointmentID() == selected.getAppointmentID());
+
         String startString = startDateField.getValue() + " " + startTimeField.getText() + ":00";
         Timestamp start = Timestamp.valueOf(startString);
         String endString = endDateField.getValue() + " " + endTimeField.getText() + ":00";
         Timestamp end = Timestamp.valueOf(endString);
 
-        for (Appointment appointment : appointments){
+        ObservableList<Boolean> overlapList = FXCollections.observableArrayList();
 
-            Boolean startCheck = appointment.getStart().getTime() >= start.getTime() && appointment.getStart().getTime() <= end.getTime();
-            Boolean endCheck = appointment.getEnd().getTime() >= start.getTime() && appointment.getEnd().getTime() <= end.getTime();
+        appointments.forEach(n -> {
+            Boolean startCheck = n.getStart().getTime() >= start.getTime() && n.getStart().getTime() <= end.getTime();
+            Boolean endCheck = n.getEnd().getTime() >= start.getTime() && n.getEnd().getTime() <= end.getTime();
 
             if (startCheck || endCheck){
-                overlaps = true;
+                overlapList.add(true);
+            }});
+
+        for (Boolean overlap : overlapList){
+            if (overlap){
+                return true;
             }
         }
-
-        return overlaps;
+        return false;
     }
-
 }

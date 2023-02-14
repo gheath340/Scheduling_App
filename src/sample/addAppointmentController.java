@@ -48,9 +48,10 @@ public class addAppointmentController implements Initializable {
         try {
             ObservableList<Contact> contacts = DBContacts.getContacts();
             ObservableList<String> names = FXCollections.observableArrayList();
-            for (Contact contact : contacts){
-                names.add(contact.getName());
-            }
+
+            //lambda expression gets each name from every contact in the contact list and adds that name to the names list
+            contacts.forEach(n -> names.add(n.getName()));
+
             contactField.getItems().addAll(names);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -112,18 +113,22 @@ public class addAppointmentController implements Initializable {
         Timestamp start = Timestamp.valueOf(startString);
         String endString = endDateField.getValue() + " " + endTimeField.getText() + ":00";
         Timestamp end = Timestamp.valueOf(endString);
+        ObservableList<Boolean> overlapList = FXCollections.observableArrayList();
+        //lambda function loops over each appointment to see if there is an overlap
+        appointments.forEach(n -> {
+            Boolean startCheck = n.getStart().getTime() >= start.getTime() && n.getStart().getTime() <= end.getTime();
+            Boolean endCheck = n.getEnd().getTime() >= start.getTime() && n.getEnd().getTime() <= end.getTime();
 
-        for (Appointment appointment : appointments){
+            if (startCheck || endCheck) {
+                overlapList.add(true);
+            }
+        });
 
-            Boolean startCheck = appointment.getStart().getTime() >= start.getTime() && appointment.getStart().getTime() <= end.getTime();
-            Boolean endCheck = appointment.getEnd().getTime() >= start.getTime() && appointment.getEnd().getTime() <= end.getTime();
-
-            if (startCheck || endCheck){
-                overlaps = true;
+        for (Boolean overlap : overlapList) {
+            if (overlap) {
+                return true;
             }
         }
-
-        return overlaps;
+        return false;
     }
-
 }

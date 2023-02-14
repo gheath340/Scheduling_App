@@ -5,6 +5,7 @@ import DBAccess.DBCustomers;
 import DBAccess.DBUsers;
 import Model.Appointment;
 import Model.Customer;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -65,6 +66,12 @@ public class customerRecordsController implements Initializable {
         Boolean appSoon = false;
         try {
             ObservableList<Appointment> appointments = DBAppointments.appointmentsGet();
+            //ObservableList<Long> times = FXCollections.observableArrayList();
+            //appointments.forEach(n -> {
+                //times.add(n.getStart().getTime() - currentTime);
+            //});
+            //times.forEach(n -> );
+
             for (Appointment appointment : appointments){
                 Long difference = (appointment.getStart().getTime() - currentTime);
                 if (difference <= 900000 && difference > 0){

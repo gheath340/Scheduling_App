@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -41,6 +42,8 @@ public class customerRecordsController implements Initializable {
     public static Customer handoff = null;
     public Button appointmentsButton;
     public Label appointmentLabel;
+    public Button appointmentReportButton;
+    public Button scheduleReportButton;
 
 
     @Override
@@ -66,11 +69,6 @@ public class customerRecordsController implements Initializable {
         Boolean appSoon = false;
         try {
             ObservableList<Appointment> appointments = DBAppointments.appointmentsGet();
-            //ObservableList<Long> times = FXCollections.observableArrayList();
-            //appointments.forEach(n -> {
-                //times.add(n.getStart().getTime() - currentTime);
-            //});
-            //times.forEach(n -> );
 
             for (Appointment appointment : appointments){
                 Long difference = (appointment.getStart().getTime() - currentTime);
@@ -169,4 +167,21 @@ public class customerRecordsController implements Initializable {
         return checker;
     }
 
+    public void appointmentReportClick(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("appointmentsMain.fxml")));
+        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 600, 400);
+        stage.setTitle("Appointments");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void scheduleReportClick(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("appointmentsMain.fxml")));
+        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 600, 400);
+        stage.setTitle("Appointments");
+        stage.setScene(scene);
+        stage.show();
+    }
 }

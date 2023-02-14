@@ -1,5 +1,9 @@
 package sample;
 
+import DBAccess.DBAppointments;
+import Model.Appointment;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,6 +17,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Date;
+import java.util.Dictionary;
 import java.util.ResourceBundle;
 
 public class appointmentRecordsController implements Initializable {
@@ -30,6 +39,15 @@ public class appointmentRecordsController implements Initializable {
             group all of month groups by type
             get length of each as count
          */
+        try {
+            ObservableList<Appointment> appointments = DBAppointments.appointmentsGet();
+            for(Appointment appointment : appointments){
+
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
     }
 
     public void onExitClick(ActionEvent actionEvent) throws IOException {

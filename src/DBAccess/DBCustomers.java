@@ -8,7 +8,11 @@ import sample.JDBC;
 import java.sql.*;
 
 public class DBCustomers {
-
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
     public static ObservableList<Customer> customersGet() throws SQLException {
         String sql = "SELECT * FROM customers";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -35,6 +39,12 @@ public class DBCustomers {
         return customers;
     }
 
+    /**
+     *
+     * @param customerID
+     * @return
+     * @throws SQLException
+     */
     public static ResultSet customerGet(int customerID) throws SQLException {
         String sql = "SELECT * FROM customers WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -51,6 +61,20 @@ public class DBCustomers {
         return rs;
     }
 
+    /**
+     *
+     * @param name
+     * @param address
+     * @param postalCode
+     * @param phone
+     * @param createDate
+     * @param createdBy
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     * @param divisionID
+     * @return
+     * @throws SQLException
+     */
     public static int customerAdd(String name, String address, String postalCode, String phone, Date createDate,
                                    String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int divisionID) throws SQLException {
         String sql = "INSERT INTO customers (Customer_ID, Customer_Name, Address, Postal_Code, Phone, Create_date, Created_By, Last_Update, " +
@@ -71,6 +95,12 @@ public class DBCustomers {
         return rowsAffected;
     }
 
+    /**
+     *
+     * @param customerID
+     * @return
+     * @throws SQLException
+     */
     public static int customerDelete(int customerID) throws SQLException{
         String sql = "DELETE FROM customers WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -80,6 +110,19 @@ public class DBCustomers {
         return rowsAffected;
     }
 
+    /**
+     *
+     * @param customerID
+     * @param name
+     * @param address
+     * @param postal
+     * @param phone
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     * @param divisionID
+     * @return
+     * @throws SQLException
+     */
     public static int updateCustomer(int customerID, String name, String address, String postal, String phone, Timestamp lastUpdate, String lastUpdatedBy, int divisionID) throws SQLException {
         String sql = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);

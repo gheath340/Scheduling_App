@@ -36,11 +36,21 @@ public class addCustomerController implements Initializable {
     public Button exitButton;
     public Label errorLabel;
 
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         countryField.getItems().addAll("U.S", "Canada", "UK");
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void countryOnClick(ActionEvent actionEvent) throws SQLException {
         if (countryField.getValue().equals("U.S")){
             stateField.getItems().clear();
@@ -71,6 +81,12 @@ public class addCustomerController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws SQLException
+     * @throws IOException
+     */
     public void onAddClick(ActionEvent actionEvent) throws SQLException, IOException {
         String name = nameField.getText();
         String address = addressField.getText();
@@ -90,6 +106,11 @@ public class addCustomerController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onExitClick(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Main.class.getResource("customerRecords.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();

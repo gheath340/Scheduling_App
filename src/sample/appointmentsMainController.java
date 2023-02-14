@@ -48,6 +48,11 @@ public class appointmentsMainController implements Initializable {
 
     public static Appointment handoff = null;
 
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -57,8 +62,17 @@ public class appointmentsMainController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public static Appointment appointmentHandoff(){ return handoff; }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void addButtonClick(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Main.class.getResource("appointmentsAdd.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -68,6 +82,11 @@ public class appointmentsMainController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void updateButtonClick(ActionEvent actionEvent) throws IOException {
         if (table.getSelectionModel().getSelectedItem() != null) {
             handoff = table.getSelectionModel().getSelectedItem();
@@ -83,6 +102,12 @@ public class appointmentsMainController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws SQLException
+     * @throws IOException
+     */
     public void deleteButtonClick(ActionEvent actionEvent) throws SQLException, IOException {
         if (table.getSelectionModel().getSelectedItem() != null) {
             handoff = table.getSelectionModel().getSelectedItem();
@@ -102,6 +127,11 @@ public class appointmentsMainController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onExitClick(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Main.class.getResource("customerRecords.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -110,6 +140,12 @@ public class appointmentsMainController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void reloadPage(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Main.class.getResource("appointmentsMain.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -119,6 +155,12 @@ public class appointmentsMainController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws SQLException
+     * @throws IOException
+     */
     public void monthRadioClick(ActionEvent actionEvent) throws SQLException, IOException {
         //filter appointments by those who are in the users current month
         weekRadio.setSelected(false);
@@ -143,6 +185,12 @@ public class appointmentsMainController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws SQLException
+     * @throws IOException
+     */
     public void weekRadioClick(ActionEvent actionEvent) throws SQLException, IOException {
         //filter appointments by those who are in the users current week
         monthRadio.setSelected(false);
@@ -168,6 +216,10 @@ public class appointmentsMainController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param appointments
+     */
     public void loadAppointments(ObservableList<Appointment> appointments){
 
         title.setCellValueFactory(new PropertyValueFactory<>("title"));

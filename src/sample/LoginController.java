@@ -38,6 +38,11 @@ public class LoginController implements Initializable{
 
     public static String user = "";
 
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         zoneLabel.setText(ZoneId.systemDefault().getId());
@@ -54,8 +59,18 @@ public class LoginController implements Initializable{
 
     }
 
+    /**
+     *
+     * @return
+     */
     public static String getUser(){ return user; }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws SQLException
+     * @throws IOException
+     */
     public void loginOnClick(ActionEvent actionEvent) throws SQLException, IOException {
         ResourceBundle rb = ResourceBundle.getBundle("sample/Nat", Locale.getDefault());
 
@@ -85,6 +100,11 @@ public class LoginController implements Initializable{
         }
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void openRecords(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Main.class.getResource("customerRecords.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();

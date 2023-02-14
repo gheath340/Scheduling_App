@@ -16,6 +16,9 @@ public class JDBC {
         private static Connection connection = null;  // Connection Interface
         private static PreparedStatement preparedStatement;
 
+    /**
+     *
+     */
          public static void makeConnection() {
 
           try {
@@ -46,12 +49,24 @@ public class JDBC {
                  }
              }
 
+    /**
+     *
+     * @param sqlStatement
+     * @param conn
+     * @throws SQLException
+     */
        public static void makePreparedStatement(String sqlStatement, Connection conn) throws SQLException {
            if (conn != null)
                preparedStatement = conn.prepareStatement(sqlStatement);
            else
                System.out.println("Prepared Statement Creation Failed!");
        }
+
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
        public static PreparedStatement getPreparedStatement() throws SQLException {
            if (preparedStatement != null)
                return preparedStatement;

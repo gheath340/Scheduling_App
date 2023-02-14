@@ -9,7 +9,10 @@ import sample.JDBC;
 import java.sql.*;
 
 public class DBCountries {
-
+    /**
+     *
+     * @throws SQLException
+     */
     public static void countriesGet() throws SQLException {
         String sql = "SELECT * FROM countries";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -23,6 +26,11 @@ public class DBCountries {
         }
     }
 
+    /**
+     *
+     * @param updatedBy
+     * @throws SQLException
+     */
     public static void countryGet(String updatedBy) throws SQLException {
         String sql = "SELECT * FROM countries WHERE Last_Updated_By = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -45,6 +53,16 @@ public class DBCountries {
         }
     }
 
+    /**
+     *
+     * @param Country
+     * @param CreateDate
+     * @param CreatedBy
+     * @param LastUpdate
+     * @param LastUpdatedBy
+     * @return
+     * @throws SQLException
+     */
     public static int countryInsert(String Country, Date CreateDate, String CreatedBy, Date LastUpdate, String LastUpdatedBy) throws SQLException {
         String sql = "INSERT INTO countries (Country,Create_Date,Created_By,Last_Update,Last_Updated_By) VALUES (?,?,?,?,?)";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -64,6 +82,13 @@ public class DBCountries {
         return rowsAffected;
     }
 
+    /**
+     *
+     * @param countryID
+     * @param countryName
+     * @return
+     * @throws SQLException
+     */
     public static int countryUpdate(int countryID, String countryName) throws SQLException {
         String sql = "UPDATE countries SET Country = ? WHERE Country_ID = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -79,6 +104,12 @@ public class DBCountries {
         return rowsAffected;
     }
 
+    /**
+     *
+     * @param countryId
+     * @return
+     * @throws SQLException
+     */
     public static int countryDelete(int countryId) throws SQLException {
         String sql = "DELETE FROM countries WHERE Country_ID = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -93,6 +124,12 @@ public class DBCountries {
 
     }
 
+    /**
+     *
+     * @param countryID
+     * @return
+     * @throws SQLException
+     */
     public static String getCountry(int countryID) throws SQLException {
         String sql = "SELECT * FROM countries WHERE Country_ID = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);

@@ -43,23 +43,53 @@ public class Appointment {
         this.contactID = contactID;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getAppointmentID(){ return this.appointmentID; }
 
+    /**
+     *
+     * @return
+     */
     public String getTitle(){ return this.title; }
 
+    /**
+     *
+     * @return
+     */
     public String getDescription(){ return this.description; }
-
+    /**
+     *
+     * @return
+     */
     public String getLocation(){ return this.location; }
-
+    /**
+     *
+     * @return
+     */
     public String getType(){ return this.type; }
-
+    /**
+     *
+     * @return
+     */
     public Timestamp getStart(){ return this.start; }
+
+    /**
+     *
+     * @return
+     */
 
     public LocalDateTime getConvertedStart() {
         LocalDateTime time = getStart().toInstant().atZone(ZoneId.of("GMT")).toLocalDateTime();
         return time;
     }
 
+    /**
+     *
+     * @return
+     */
     public Timestamp getEnd(){ return this.end; }
 
     public LocalDateTime getConvertedEnd() {
@@ -67,18 +97,40 @@ public class Appointment {
         return time;
     }
 
+    /**
+     *
+     * @return
+     */
     public Timestamp getCreateDate(){ return this.createDate; }
-
+    /**
+     *
+     * @return
+     */
     public String getCreatedBy(){ return this.createdBy; }
-
+    /**
+     *
+     * @return
+     */
     public Timestamp getLastUpdate(){ return this.lastUpdate; }
-
+    /**
+     *
+     * @return
+     */
     public String getLastUpdatedBy(){ return this.lastUpdatedBy; }
-
+    /**
+     *
+     * @return
+     */
     public int getCustomerID(){ return this.customerID; }
-
+    /**
+     *
+     * @return
+     */
     public int getUserID(){ return this.userID; }
-
+    /**
+     *
+     * @return
+     */
     public int getContactID(){ return this.contactID; }
 
 }

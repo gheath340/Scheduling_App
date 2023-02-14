@@ -36,6 +36,11 @@ public class updateCustomerController implements Initializable {
     public Button exitButton;
     public TextField customerIDField;
 
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         countryField.getItems().addAll("U.S", "Canada", "UK");
@@ -111,6 +116,11 @@ public class updateCustomerController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void onCountryClick(ActionEvent actionEvent) throws SQLException{
         if (countryField.getValue().equals("U.S")){
             stateField.getItems().clear();
@@ -144,6 +154,12 @@ public class updateCustomerController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws SQLException
+     * @throws IOException
+     */
     public void onUpdateClick(ActionEvent actionEvent) throws SQLException, IOException {
         Customer selected = customerRecordsController.handoff();
 
@@ -167,6 +183,11 @@ public class updateCustomerController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onExitClick(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Main.class.getResource("customerRecords.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();

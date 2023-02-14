@@ -8,10 +8,17 @@ public class Countries {
         this.id = id;
         this.name = name;
     }
-
+    /**
+     *
+     * @return
+     */
     public int getId(){
         return this.id;
     }
+    /**
+     *
+     * @return
+     */
     public String getName(){
         return this.name;
     }

@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Division {
+
     private int divisionID;
     private String division;
     private Date createDate;
@@ -22,18 +23,40 @@ public class Division {
         this.countryID = countryID;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getDivisionId(){ return this.divisionID; }
-
+    /**
+     *
+     * @return
+     */
     public String getDivision(){ return this.division; }
-
+    /**
+     *
+     * @return
+     */
     public Date getCreateDate(){ return this.createDate; }
-
+    /**
+     *
+     * @return
+     */
     public String getCreatedBy(){ return this.createdBy; }
-
+    /**
+     *
+     * @return
+     */
     public Timestamp getLastUpdate(){ return this.lastUpdate; }
-
+    /**
+     *
+     * @return
+     */
     public String getLastUpdatedBy(){ return this.lastUpdatedBy; }
-
+    /**
+     *
+     * @return
+     */
     public int getCountryID(){ return this.countryID; }
 
 }

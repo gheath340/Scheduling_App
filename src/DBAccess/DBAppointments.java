@@ -8,7 +8,11 @@ import sample.JDBC;
 import java.sql.*;
 
 public class DBAppointments {
-
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
     public static ObservableList<Appointment> appointmentsGet() throws SQLException {
         String sql = "SELECT * FROM appointments";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -39,6 +43,12 @@ public class DBAppointments {
         return appointments;
     }
 
+    /**
+     *
+     * @param customerID
+     * @return
+     * @throws SQLException
+     */
     public static ObservableList<Appointment> appointmentsByCustomerID(int customerID) throws SQLException{
         String sql = "SELECT * FROM appointments WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -70,6 +80,12 @@ public class DBAppointments {
         return appointments;
     }
 
+    /**
+     *
+     * @param appID
+     * @return
+     * @throws SQLException
+     */
     public static ResultSet appointmentGet(int appID) throws SQLException {
         String sql = "SELECT * FROM appointments WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -82,6 +98,23 @@ public class DBAppointments {
         return rs;
     }
 
+    /**
+     *
+     * @param title
+     * @param description
+     * @param location
+     * @param type
+     * @param createDate
+     * @param createdBy
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     * @param start
+     * @param end
+     * @param customerID
+     * @param userID
+     * @param contactID
+     * @throws SQLException
+     */
     public static void appointmentAdd(String title, String description, String location, String type, Timestamp createDate,
                                       String createdBy, Timestamp lastUpdate, String lastUpdatedBy, Timestamp start, Timestamp end,
                                       int customerID, int userID, int contactID) throws SQLException {
@@ -107,6 +140,11 @@ public class DBAppointments {
 
     }
 
+    /**
+     *
+     * @param appID
+     * @throws SQLException
+     */
     public static void appointmentDelete(int appID) throws SQLException{
         String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -115,6 +153,22 @@ public class DBAppointments {
 
     }
 
+    /**
+     *
+     * @param appID
+     * @param title
+     * @param description
+     * @param location
+     * @param type
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     * @param start
+     * @param end
+     * @param customerID
+     * @param userID
+     * @param contactID
+     * @throws SQLException
+     */
     public static void updateAppointment(int appID, String title, String description, String location, String type, Timestamp lastUpdate,
                                          String lastUpdatedBy, Timestamp start, Timestamp end, int customerID, int userID, int contactID) throws SQLException {
         String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = ?, " +

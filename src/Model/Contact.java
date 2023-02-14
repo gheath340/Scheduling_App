@@ -17,10 +17,20 @@ public class Contact {
         this.email = email;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getContactID(){ return this.id; }
-
+    /**
+     *
+     * @return
+     */
     public String getName(){ return this.name; }
-
+    /**
+     *
+     * @return
+     */
     public String getEmail(){ return this.email; }
 
 }

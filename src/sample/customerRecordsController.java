@@ -45,7 +45,11 @@ public class customerRecordsController implements Initializable {
     public Button appointmentReportButton;
     public Button scheduleReportButton;
 
-
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -85,8 +89,17 @@ public class customerRecordsController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public static Customer handoff(){ return handoff; }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void addButtonClick(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Main.class.getResource("addCustomer.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -96,6 +109,11 @@ public class customerRecordsController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void updateButtonClick(ActionEvent actionEvent) throws IOException {
         if (table.getSelectionModel().getSelectedItem() != null) {
             handoff = table.getSelectionModel().getSelectedItem();
@@ -112,6 +130,12 @@ public class customerRecordsController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     * @throws SQLException
+     */
     public void deleteButtonClick(ActionEvent actionEvent) throws IOException, SQLException {
         //check all appointments to make sure none of their customer ids match selected customers id
         errorLabel.setText("");
@@ -134,6 +158,11 @@ public class customerRecordsController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void reloadPage(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Main.class.getResource("customerRecords.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -143,6 +172,11 @@ public class customerRecordsController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onAppointmentsClick(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Main.class.getResource("appointmentsMain.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -152,6 +186,12 @@ public class customerRecordsController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     * @throws SQLException
+     */
     //returns true if okay to be deleted(no appointments associated)
     public boolean customerDeleteCheck(int id) throws SQLException {
         //check given customer id against all customer ids in all appointments
@@ -167,6 +207,11 @@ public class customerRecordsController implements Initializable {
         return checker;
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void appointmentReportClick(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("appointmentsMain.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -176,6 +221,11 @@ public class customerRecordsController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void scheduleReportClick(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("appointmentsMain.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();

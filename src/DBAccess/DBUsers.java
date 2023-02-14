@@ -8,7 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DBUsers {
-
+    /**
+     *
+     * @param userName
+     * @param password
+     * @return
+     */
     public static String userGet(String userName, String password){
         String matches = "";
         try {

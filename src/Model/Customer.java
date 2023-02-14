@@ -32,24 +32,56 @@ public class Customer {
         this.divisionID = divisionID;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getId(){ return this.id; }
 
+    /**
+     *
+     * @return
+     */
     public String getName(){ return this.name; }
-
+    /**
+     *
+     * @return
+     */
     public String getAddress(){ return this.address; }
-
+    /**
+     *
+     * @return
+     */
     public String getPostalCode(){ return this.postalCode; }
-
+    /**
+     *
+     * @return
+     */
     public String getPhone(){ return this.phone; }
-
+    /**
+     *
+     * @return
+     */
     public Date getCreateDate(){ return this.createDate; }
-
+    /**
+     *
+     * @return
+     */
     public String getCreatedBy(){ return this.createdBy; }
-
+    /**
+     *
+     * @return
+     */
     public Timestamp getLastUpdate(){ return this.lastUpdate; }
-
+    /**
+     *
+     * @return
+     */
     public String getLastUpdatedBy(){ return this.lastUpdatedBy; }
-
+    /**
+     *
+     * @return
+     */
     public int getDivisionID(){ return this.divisionID; }
 
 }

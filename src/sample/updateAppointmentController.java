@@ -44,6 +44,11 @@ public class updateAppointmentController implements Initializable {
     public DatePicker startDateField;
     public DatePicker endDateField;
 
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Appointment selected = appointmentsMainController.appointmentHandoff();
@@ -79,6 +84,12 @@ public class updateAppointmentController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     * @throws SQLException
+     */
     public void onUpdateClick(ActionEvent actionEvent) throws IOException, SQLException {
         int appID = Integer.parseInt(appIDField.getText());
         String title = titleField.getText();
@@ -107,6 +118,11 @@ public class updateAppointmentController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onExitClick(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("appointmentsMain.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -116,6 +132,12 @@ public class updateAppointmentController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param start
+     * @param end
+     * @return
+     */
     public Boolean validAppointmentTime(Timestamp start, Timestamp end){
         //make sure times are within 8am and 10pm eastern
         LocalDateTime convertedStart = start.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
@@ -125,6 +147,11 @@ public class updateAppointmentController implements Initializable {
         return startHour > 7 && startHour < 22 && endHour > 7 && endHour < 22;
     }
 
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
     public Boolean appointmentOverlap() throws SQLException {
         Boolean overlaps = false;
         Appointment selected = appointmentsMainController.appointmentHandoff();

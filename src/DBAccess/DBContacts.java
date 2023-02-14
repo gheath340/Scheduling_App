@@ -9,6 +9,11 @@ import sample.JDBC;
 import java.sql.*;
 
 public class DBContacts {
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
     public static ObservableList<Contact> getContacts() throws SQLException {
         String sql = "SELECT * FROM contacts";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -27,6 +32,12 @@ public class DBContacts {
         return contacts;
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     * @throws SQLException
+     */
     public static int getContactID(String name) throws SQLException {
         String sql = "SELECT * FROM contacts WHERE Contact_Name = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -40,6 +51,12 @@ public class DBContacts {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     * @throws SQLException
+     */
     public static String getContactName(int id) throws SQLException {
         String sql = "SELECT * FROM contacts WHERE Contact_ID = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);

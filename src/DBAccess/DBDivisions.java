@@ -9,7 +9,12 @@ import sample.JDBC;
 import java.sql.*;
 
 public class DBDivisions {
-
+    /**
+     *
+     * @param countryID
+     * @return
+     * @throws SQLException
+     */
     public static ObservableList<Division> getDivisions(int countryID) throws SQLException {
         String sql = "SELECT * FROM first_level_divisions WHERE Country_ID = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -33,6 +38,12 @@ public class DBDivisions {
         return divisions;
     }
 
+    /**
+     *
+     * @param division
+     * @return
+     * @throws SQLException
+     */
     public static int getDivisionID(String division) throws SQLException {
         String sql = "SELECT * FROM first_level_divisions WHERE Division = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -62,6 +73,12 @@ public class DBDivisions {
         return division;
     }
 
+    /**
+     *
+     * @param divisionID
+     * @return
+     * @throws SQLException
+     */
     public static int getCountryID(int divisionID) throws SQLException {
         String sql = "SELECT * FROM first_level_divisions WHERE Division_ID = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);

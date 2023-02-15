@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.customerReportController">
+   <children>
+      <TableView fx:id="table" layoutX="189.0" layoutY="69.0" prefHeight="200.0" prefWidth="195.0">
+         <columns>
+            <TableColumn fx:id="appID" prefWidth="75.0" text="Customer ID" />
+            <TableColumn fx:id="title" prefWidth="125.0" text="# of appointments" />
+         </columns>
+      </TableView>
+      <Button fx:id="exitButton" layoutX="269.0" layoutY="332.0" mnemonicParsing="false" onAction="#onExitClick" text="Exit" />
+   </children>
+</AnchorPane>

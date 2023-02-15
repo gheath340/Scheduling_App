@@ -234,4 +234,18 @@ public class customerRecordsController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
+    public void onCustomerReportClick(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("customerReport.fxml")));
+        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 600, 400);
+        stage.setTitle("Appointments");
+        stage.setScene(scene);
+        stage.show();
+    }
 }

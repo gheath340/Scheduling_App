@@ -25,7 +25,7 @@ Instructions
 -HelloWorldJFX/srx/sample/main
 
 Report Description
--
+-My additional report shows the number of appointments for each customer
 
 MYSQL Driver
 -8.0.251

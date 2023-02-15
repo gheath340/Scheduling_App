@@ -17,6 +17,7 @@ public class Customer {
     private Timestamp lastUpdate;
     private String lastUpdatedBy;
     private int divisionID;
+    private int appointmentCount;
 
     public Customer(int id, String name, String address, String postalCode, String phone, Date createDate,
                     String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int divisionID){
@@ -30,6 +31,7 @@ public class Customer {
         this.lastUpdate = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
         this.divisionID = divisionID;
+        this.appointmentCount = 0;
     }
 
     /**
@@ -83,5 +85,17 @@ public class Customer {
      * @return
      */
     public int getDivisionID(){ return this.divisionID; }
+
+    /**
+     *
+     * @return
+     */
+    public int getAppointmentCount() { return this.appointmentCount; }
+
+    /**
+     *
+     * @param count
+     */
+    public void setAppointmentCount(int count) { this.appointmentCount = count; }
 
 }

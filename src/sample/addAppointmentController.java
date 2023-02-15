@@ -42,6 +42,11 @@ public class addAppointmentController implements Initializable {
     public DatePicker startDateField;
     public DatePicker endDateField;
 
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //get all contacts and make a list of their names
@@ -58,6 +63,12 @@ public class addAppointmentController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws SQLException
+     * @throws IOException
+     */
     public void onAddClick(ActionEvent actionEvent) throws SQLException, IOException {
         String title = titleField.getText();
         String location = locationField.getText();
@@ -88,6 +99,11 @@ public class addAppointmentController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onExitClick(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("appointmentsMain.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -97,6 +113,12 @@ public class addAppointmentController implements Initializable {
         stage.show();
     }
 
+    /**
+     *
+     * @param start
+     * @param end
+     * @return
+     */
     public Boolean validAppointmentTime(Timestamp start, Timestamp end){
         //make sure times are within 8am and 10pm eastern
         LocalDateTime convertedStart = start.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
@@ -106,6 +128,11 @@ public class addAppointmentController implements Initializable {
         return startHour > 7 && startHour < 22 && endHour > 7 && endHour < 22;
     }
 
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
     public Boolean appointmentOverlap() throws SQLException {
         Boolean overlaps = false;
         ObservableList<Appointment> appointments = DBAppointments.appointmentsByCustomerID(Integer.parseInt(customerIDField.getText()));

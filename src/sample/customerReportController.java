@@ -31,6 +31,11 @@ public class customerReportController implements Initializable {
     public TableColumn title;
     public Button exitButton;
 
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //get list of all customers, display ids in first column
@@ -54,6 +59,11 @@ public class customerReportController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onExitClick(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("appointmentsMain.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();

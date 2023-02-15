@@ -2,6 +2,7 @@ package sample;
 
 import DBAccess.DBAppointments;
 import Model.Appointment;
+import Model.AppointmentRecord;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,7 +24,9 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.Date;
 import java.util.Dictionary;
+import java.util.List;
 import java.util.ResourceBundle;
+
 
 public class appointmentRecordsController implements Initializable {
 
@@ -39,20 +43,48 @@ public class appointmentRecordsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        /*
-            group all appointments by month
-            group all of month groups by type
-            get length of each as count
-         */
         try {
             ObservableList<Appointment> appointments = DBAppointments.appointmentsGet();
-            for(Appointment appointment : appointments){
+            ObservableList<AppointmentRecord> appointmentRecords = FXCollections.observableArrayList();
 
+            for(Appointment appointment : appointments){
+                LocalDate app = appointment.getStart().toLocalDateTime().toLocalDate();
+                String month = String.valueOf(app.getMonth());
+                String type = appointment.getType();
+                boolean inThere = false;
+                for(AppointmentRecord appRec : appointmentRecords) {
+                    if (appRec.getMonth().equals(month) && appRec.getType().equals(type)) {
+                        int c = Integer.parseInt(appRec.getCount());
+                        c = c + 1;
+                        appRec.setCount(String.valueOf(c));
+                        inThere = true;
+                    }
+                }
+                if(!inThere){
+                    AppointmentRecord n = new AppointmentRecord(month, type, "1");
+                    appointmentRecords.add(n);
+                }
             }
+            loadAppointments(appointmentRecords);
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
+    }
+
+    /**
+     *
+     * @param appointmentRecords
+     */
+    public void loadAppointments(ObservableList<AppointmentRecord> appointmentRecords){
+
+        monthColumn.setCellValueFactory(new PropertyValueFactory<>("month"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        countColumn.setCellValueFactory(new PropertyValueFactory<>("count"));
+
+
+        table.setItems(appointmentRecords);
     }
 
     /**

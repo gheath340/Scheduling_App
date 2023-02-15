@@ -23,8 +23,6 @@ public class DBUsers {
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
                 String pass = rs.getString("Password");
-                System.out.println(pass);
-                System.out.println(password);
                 if (pass.equals(password)) {
                     matches = "true";
                 } else {

@@ -18,9 +18,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -37,6 +41,10 @@ public class LoginController implements Initializable{
     public Label appointmentLabel;
 
     public static String user = "";
+    public static String activityOutput = "";
+
+    public LoginController() throws IOException {
+    }
 
     /**
      *
@@ -79,10 +87,26 @@ public class LoginController implements Initializable{
 
         String matches = DBUsers.userGet(userName, password);
         if (matches.equals("true")){
+            long millis = System.currentTimeMillis();
+            Timestamp timeStamp = new Timestamp(millis);
+            activityOutput = String.valueOf(timeStamp) + " login successful";
+            //writing to the activity file
+            FileWriter output = new FileWriter("login_activity.txt", true);
+            PrintWriter outputFile = new PrintWriter(output);
+            outputFile.println(activityOutput);
+            outputFile.close();
             user = userName;
             loginError.setText("");
             openRecords(actionEvent);
         }else if (matches.equals("false")){
+            long millis = System.currentTimeMillis();
+            Timestamp timeStamp = new Timestamp(millis);
+            activityOutput = String.valueOf(timeStamp) + " login not successful";
+            //writing to the activity file
+            FileWriter output = new FileWriter("login_activity.txt", true);
+            PrintWriter outputFile = new PrintWriter(output);
+            outputFile.println(activityOutput);
+            outputFile.close();
             if (Locale.getDefault().getLanguage().equals("fr")) {
                 String s = rb.getString("Incorrect") + rb.getString("Password");
                 loginError.setText(s);
@@ -91,6 +115,14 @@ public class LoginController implements Initializable{
             }
 
         }else{
+            long millis = System.currentTimeMillis();
+            Timestamp timeStamp = new Timestamp(millis);
+            activityOutput = String.valueOf(timeStamp) + " login not successful";
+            //writing to the activity file
+            FileWriter output = new FileWriter("login_activity.txt", true);
+            PrintWriter outputFile = new PrintWriter(output);
+            outputFile.println(activityOutput);
+            outputFile.close();
             if (Locale.getDefault().getLanguage().equals("fr")) {
                 String s = rb.getString("Username") + rb.getString("does") + rb.getString("not") + rb.getString("exist");
                 loginError.setText(s);

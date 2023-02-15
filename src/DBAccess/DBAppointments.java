@@ -45,6 +45,45 @@ public class DBAppointments {
 
     /**
      *
+     * @param contactID
+     * @return
+     * @throws SQLException
+     */
+    public static ObservableList<Appointment> getContactAppointments(int contactID) throws SQLException {
+        String sql = "SELECT * FROM appointments WHERE Contact_ID = ?";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ps.setInt(1, contactID);
+        ResultSet rs = ps.executeQuery();
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+
+        while (rs.next()) {
+            int appID = rs.getInt("Appointment_ID");
+            String title = rs.getString("Title");
+            String description = rs.getString("Description");
+            String location = rs.getString("Location");
+            String type = rs.getString("Type");
+            Timestamp createDate = rs.getTimestamp("Create_Date");
+            String createdBy = rs.getString("Created_By");
+            Timestamp lastUpdate = rs.getTimestamp("Last_Update");
+            String lastUpdatedBy = rs.getString("Last_Updated_By");
+            Timestamp start = rs.getTimestamp("Start");
+            Timestamp end = rs.getTimestamp("End");
+            int customerID = rs.getInt("Customer_ID");
+            int userID = rs.getInt("User_ID");
+            int cID = rs.getInt("Contact_ID");
+
+            Appointment appointment = new Appointment(appID, title, description, location, type, start, end, lastUpdate,
+                    lastUpdatedBy, createDate, createdBy, customerID, userID, cID);
+            appointments.add(appointment);
+
+        }
+        return appointments;
+    }
+
+
+
+    /**
+     *
      * @param customerID
      * @return
      * @throws SQLException

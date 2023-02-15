@@ -213,7 +213,7 @@ public class customerRecordsController implements Initializable {
      * @throws IOException
      */
     public void appointmentReportClick(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("appointmentsMain.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("appointmentRecords.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 600, 400);
         stage.setTitle("Appointments");
@@ -227,7 +227,7 @@ public class customerRecordsController implements Initializable {
      * @throws IOException
      */
     public void scheduleReportClick(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("appointmentsMain.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("scheduleRecords.fxml")));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 600, 400);
         stage.setTitle("Appointments");

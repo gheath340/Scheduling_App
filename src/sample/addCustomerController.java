@@ -25,7 +25,6 @@ import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
 public class addCustomerController implements Initializable {
-
     public TextField nameField;
     public TextField addressField;
     public TextField numberField;

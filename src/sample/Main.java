@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 public class Main extends Application {
     /**
@@ -37,16 +38,8 @@ public class Main extends Application {
     public static void main(String[] args) throws SQLException {
         JDBC.makeConnection();
 
-        launch(args);
-        //CODE GOES HERE
-        //DBCountries.countryUpdate(7, "Canada");
 
-        //long millis=System.currentTimeMillis();
-        //java.sql.Date date=new java.sql.Date(millis);
-        //DBCountries.countryInsert("Test", date, "Me", date, "Me");
-        //DBCountries.countryDelete(7);
-        //DBCountries.countriesGet();
-        //DBCountries.countryGet("script");
+        launch(args);
 
 
         JDBC.closeConnection();

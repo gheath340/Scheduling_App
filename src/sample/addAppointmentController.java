@@ -43,7 +43,7 @@ public class addAppointmentController implements Initializable {
     public DatePicker endDateField;
 
     /**
-     *
+     * lambda expression gets each name from every contact in the contact list and adds that name to the names list
      * @param url
      * @param resourceBundle
      */
@@ -129,7 +129,7 @@ public class addAppointmentController implements Initializable {
     }
 
     /**
-     *
+     * lambda fucntion loops over each appointment to see if there is an overlap
      * @return
      * @throws SQLException
      */
